@@ -10,8 +10,9 @@ from pyspark.ml.evaluation import BinaryClassificationEvaluator
 
 from pyspark.sql import SparkSession
 
+dataset = "/opt/dkube/dataset"
 spark = SparkSession.builder.appName('imbalanced_multi_data').getOrCreate()
-new_df = spark.read.csv('/home/lucifer001/dataset/train-jafar/1618816341240/data/UNSW-Nb4.csv',header=True,inferSchema=True)
+new_df = spark.read.csv(dataset + '/UNSW-Nb4.csv',header=True,inferSchema=True)
 
 
 #Convert qualification and gender columns to numeric
