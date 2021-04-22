@@ -8,18 +8,23 @@ from pyspark.ml.classification import LogisticRegression
 from pyspark.ml.tuning import ParamGridBuilder,CrossValidator
 from pyspark.ml.evaluation import BinaryClassificationEvaluator
 from pyspark.sql import SparkSession
-import logging
-import sys
+#import logging
+#import sys
 
-logger = logging.getLogger("py4j")
+'''logger = logging.getLogger("py4j")
 
 logger.info("############ this is test message")
 logger.debug("############ this is test message")
 logger.warning("############ this is test message")
-logger.error("############ this is test message")
+logger.error("############ this is test message")'''
 
 dataset = "/opt/dkube/dataset"
 spark = SparkSession.builder.config("spark.driver.memory","15g").appName('imbalanced_multi_data').getOrCreate()
+Logger= spark._jvm.org.apache.log4j.Logger
+logger = Logger.getLogger(__name__)
+
+logger.error("############ this is test message")
+
 new_df = spark.read.csv(dataset + '/UNSW-Nb4.csv',header=True,inferSchema=True)
 
 
