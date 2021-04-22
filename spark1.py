@@ -11,7 +11,12 @@ from pyspark.sql import SparkSession
 import logging
 import sys
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("py4j")
+
+logger.info("############ this is test message")
+logger.debug("############ this is test message")
+logger.warning("############ this is test message")
+logger.error("############ this is test message")
 
 dataset = "/opt/dkube/dataset"
 spark = SparkSession.builder.config("spark.driver.memory","15g").appName('imbalanced_multi_data').getOrCreate()
@@ -56,7 +61,7 @@ stages1 = []
 stages1 +=[minmax]
 stages1 += [lr]
 
-logger.info("train60,test40  logistic regression")
+logger.info("########train60,test40  logistic regression")
 
 from pyspark.ml import Pipeline
 
@@ -113,7 +118,7 @@ pipeline = Pipeline().setStages(stages1)
 lr_model80 = pipeline.fit(train80)
 lr_pp_df20 = lr_model80.transform(test20)
 
-lr_predicited20 = lr_pp_df80.select("normFeatures","prediction","label","rawPrediction","probability")
+lr_predicited20 = lr_pp_df20.select("normFeatures","prediction","label","rawPrediction","probability")
 tp = float(lr_predicited20.filter("prediction == 1.0 AND label == 1").count())
 fp = float(lr_predicited20.filter("prediction == 1.0 AND label == 0").count())
 tn = float(lr_predicited20.filter("prediction == 0.0 AND label == 0").count())
