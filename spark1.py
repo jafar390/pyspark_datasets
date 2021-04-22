@@ -35,10 +35,13 @@ col5_indexer = StringIndexer(inputCol="col5", outputCol="col5Index")
 col6_indexer = StringIndexer(inputCol="col6", outputCol="col6Index")
 
 #Convert qualificationIndex and genderIndex
+logger.error("############ initiated onehot encoder algo")
 onehot_encoder = OneHotEncoder(inputCols=["col2Index","col4Index","col5Index","col6Index"], outputCols=["col2_vec", "col4_vec","col5_vec","col6_vec"])
-
+logger.error("############ onehot encoder done")
 #Merge multiple columns into a vector column
+logger.error("############ intiated vector assembler")
 vector_assembler = VectorAssembler(inputCols=['col7','col8','col9','col10','col11','col12','col13','col15','col16','col17','col18','col19','col20','col21','col22','col23','col24','col25','col26','col27','col28','col29','col30','col31','col32','col33','col34','col35','col36','col37','col38','col39','col41','col42','col43','col44','col45','col46','col47',"col2_vec", "col4_vec","col5_vec","col6_vec"], outputCol='features')
+logger.error("############ vector assembler done")
 #Create pipeline and pass it to stages
 pipeline = Pipeline(stages=[
            col2_indexer,col4_indexer, 
@@ -138,14 +141,14 @@ metrics40 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("acc
 metrics40.show()
 
 
-logger.info("##############LR with train90 and test10")
+logger.error("##############LR with train90 and test10")
 
 from pyspark.ml import Pipeline
 
 pipeline = Pipeline().setStages(stages1)
 #model = pipeline.fit(train)
 lr_model90 = pipeline.fit(train90)
-lr_pp_df90 = lr_model90.transform(test90)
+lr_pp_df90 = lr_model90.transform(test10)
 
 lr_predicited10 = lr_pp_df90.select("normFeatures","prediction","label","rawPrediction","probability")
 tp = float(lr_predicited10.filter("prediction == 1.0 AND label == 1").count())
@@ -162,7 +165,7 @@ metrics40 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("acc
 metrics40.show()
 
 
-logger.info("##################train60,test40 decision tree")
+logger.error("##################train60,test40 decision tree")
 
 from pyspark.ml.classification import DecisionTreeClassifier
 minmax = MinMaxScaler(inputCol="features",outputCol="normFeatures")
@@ -198,7 +201,7 @@ re = tp / (tp + fn)
 metrics1940 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",2*pr*re/(re+pr))],["metric","value"])
 metrics1940.show()
 
-logger.info(" ############33decision tree train70 and test30")
+logger.error(" ############33decision tree train70 and test30")
 
 
 from pyspark.ml import Pipeline
@@ -278,9 +281,9 @@ metrics1940 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("a
 metrics1940.show()
 
 
-logger.info("###############Random-Forest")
+logger.error("###############Random-Forest")
 
-logger.info("Random-Forest train60 and test40")
+logger.error("Random-Forest train60 and test40")
 
 from pyspark.ml.classification import RandomForestClassifier
 minmax = MinMaxScaler(inputCol="features",outputCol="normFeatures")
@@ -315,7 +318,7 @@ re = tp / (tp + fn)
 metrics40 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",2*pr*re/(re+pr))],["metric","value"])
 metrics40.show()
 
-logger.info("################Random forest train70 and test30")
+logger.error("################Random forest train70 and test30")
 
 from pyspark.ml import Pipeline
 
@@ -339,7 +342,7 @@ re = tp / (tp + fn)
 metrics30 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",2*pr*re/(re+pr))],["metric","value"])
 metrics30.show()
 
-logger.info("###############Random forest train80 and test20")
+logger.error("###############Random forest train80 and test20")
 
 from pyspark.ml import Pipeline
 
@@ -363,7 +366,7 @@ re = tp / (tp + fn)
 metrics20 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",2*pr*re/(re+pr))],["metric","value"])
 metrics20.show()
 
-logger.info("###############Random forest train90 and test10")
+logger.error("###############Random forest train90 and test10")
 
 from pyspark.ml import Pipeline
 
@@ -389,7 +392,7 @@ metrics10.show()
 
 
 
-logger.info("#################3SVM with train60 and test40")
+logger.error("#################3SVM with train60 and test40")
 
 from pyspark.ml.classification import LinearSVC
 
@@ -426,7 +429,7 @@ re = tp / (tp + fn)
 metrics40 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",2*pr*re/(re+pr))],["metric","value"])
 metrics40.show()
 
-logger.info("#########3svm train70 and test30")
+logger.error("#########3svm train70 and test30")
 
 pipeline209 = Pipeline().setStages(stages209)
 svm_model70 = pipeline209.fit(train70)
@@ -447,7 +450,7 @@ re = tp / (tp + fn)
 metrics30 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",2*pr*re/(re+pr))],["metric","value"])
 metrics30.show()
 
-logger.info("################3svm train80 and test20")
+logger.error("################3svm train80 and test20")
 
 pipeline209 = Pipeline().setStages(stages209)
 svm_model80 = pipeline209.fit(train80)
@@ -468,7 +471,7 @@ re = tp / (tp + fn)
 metrics20 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",2*pr*re/(re+pr))],["metric","value"])
 metrics20.show()
 
-logger.info("######Svm train90 and test10")
+logger.error("######Svm train90 and test10")
 
 
 pipeline209 = Pipeline().setStages(stages209)
@@ -492,7 +495,7 @@ metrics10.show()
 
 
 
-logger.info("###########333GBN train60 and test40")
+logger.error("###########333GBN train60 and test40")
 
 from pyspark.ml import Pipeline
 from pyspark.ml.classification import GBTClassifier
@@ -525,7 +528,7 @@ re = tp / (tp + fn)
 metrics40 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",2*pr*re/(re+pr))],["metric","value"])
 metrics40.show()
 
-logger.info("###########3gbn train70 and test30")
+logger.error("###########3gbn train70 and test30")
 
 from pyspark.ml import Pipeline
 
@@ -547,7 +550,7 @@ re = tp / (tp + fn)
 metrics30 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",2*pr*re/(re+pr))],["metric","value"])
 metrics30.show()
 
-logger.info("###########3gbn train80 and test20")
+logger.error("###########3gbn train80 and test20")
 
 from pyspark.ml import Pipeline
 
@@ -569,7 +572,7 @@ re = tp / (tp + fn)
 metrics20 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",2*pr*re/(re+pr))],["metric","value"])
 metrics20.show()
 
-logger.info("################gbn train90 and test10")
+logger.error("################gbn train90 and test10")
 
 
 
