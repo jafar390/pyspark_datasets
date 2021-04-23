@@ -21,9 +21,9 @@ logger = Logger.getLogger(__name__)
 if(len(sys.argv)< 2):
   logger.error("arguements are requires : note: run like this:python3 <filename.py> 0.6 0.4")
   sys.exit(1)
-  
 
-logger.error("############ this is test message")
+logger.error("########## train Split",sys.argv[1])
+logger.error("########## test Split",sys.argv[2])
 
 new_df = spark.read.csv(dataset + '/UNSW-Nb4.csv',header=True,inferSchema=True)
 
@@ -55,7 +55,7 @@ df_transformed.show()
 
 logger.error("#### before spliting")
 
-train,test = df_transformed.randomSplit([float(sys.argv[0]), float(sys.argv[1])],seed=7)
+train,test = df_transformed.randomSplit([float64(sys.argv[1]), float(sys.argv[2])],seed=7)
 #train60,test40 = df_transformed.randomSplit([0.6,0.4],seed=7)
 #train70,test30 = df_transformed.randomSplit([0.7, 0.3], seed=7)
 #train80,test20 = df_transformed.randomSplit([0.8,0.2],seed=7)
@@ -71,7 +71,7 @@ stages1 = []
 stages1 +=[minmax]
 stages1 += [lr]
 
-logger.error("#######logistic regression","train",sys.argv[0],"test",sys.argv[1])
+logger.error("#######logistic regression")
 
 from pyspark.ml import Pipeline
 
