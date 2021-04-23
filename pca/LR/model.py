@@ -84,13 +84,13 @@ from pyspark.ml.feature import VectorAssembler, StandardScaler, PCA
 logger.error("######  pca on standarded scaler using train")
 pca = PCA(k=2, inputCol="std_features",outputCol="pca_features")
 pca_model = pca.fit(standardized_features_df70)
-pca_df = pca_model.transform(standardized_features_df70)
+pca_train = pca_model.transform(standardized_features_df70)
 
 logger.error("###### pca on standarded scaler using test")
 
 pca = PCA(k=2, inputCol="std_features",outputCol="pca_features")
 pca_model = pca.fit(standardized_features_df30)
-pca_df = pca_model.transform(standardized_features_df30)
+pca_test = pca_model.transform(standardized_features_df30)
 
 print("logisticRegression")
 lr = LogisticRegression(labelCol="label",featuresCol="pca_features",maxIter=10,regParam=0.3)
@@ -104,9 +104,9 @@ stages321 += [lr]
 from pyspark.ml import Pipeline
 
 pipeline3219 = Pipeline().setStages(stages321)
-model3219 = pipeline3219.fit(pca_df)
+model3219 = pipeline3219.fit(pca_train)
 
-lr7_pp_df3219 = model3219.transform(pca_df)
+lr7_pp_df3219 = model3219.transform(pca_test)
 #scaledData.show()
 
 lr7_predicited3219 =lr7_pp_df3219.select("prediction","label","rawPrediction","probability")
