@@ -14,7 +14,7 @@ import sys
 
 dataset = "/opt/dkube/dataset"
 spark = SparkSession.builder.config("spark.driver.memory","15g").appName('imbalanced_multi_data').getOrCreate()
-Logger= spark._jvm.org.apache.log4j.Logger
+logger= spark._jvm.org.apache.log4j.Logger
 
 
 if(len(sys.argv)< 2):
@@ -89,4 +89,5 @@ pr = tp / (tp + fp)
 re = tp / (tp + fn)
 
 metrics40 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",2*pr*re/(re+pr))],["metric","value"])
+logger.error(metrics40)
 metrics40.show()
