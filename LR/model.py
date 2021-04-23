@@ -18,12 +18,16 @@ Logger= spark._jvm.org.apache.log4j.Logger
 logger = Logger.getLogger(__name__)
 
 
-if(len(sys.argv)< 2):
+if(len(sys.argv)< 3):
   logger.error("arguements are requires : note: run like this:python3 <filename.py> 0.6 0.4")
   sys.exit(1)
 
-logger.error("########## train Split",sys.argv[1])
-logger.error("########## test Split",sys.argv[2])
+logger.error("########## train Split")
+logger.error(sys.argv[1])
+print(sys.argv[1])
+logger.error("########## test Split")
+logger.error(sys.argv[2])
+print(sys.argv[2])
 
 new_df = spark.read.csv(dataset + '/UNSW-Nb4.csv',header=True,inferSchema=True)
 
