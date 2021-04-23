@@ -98,5 +98,4 @@ pr = tp / (tp + fp)
 re = tp / (tp + fn)
 
 metrics40 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",2*pr*re/(re+pr))],["metric","value"])
-logger.error(metrics40)
 metrics40.show()
