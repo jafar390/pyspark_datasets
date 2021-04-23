@@ -53,6 +53,7 @@ pipeline = Pipeline(stages=[
 df_transformed = pipeline.fit(new_df).transform(new_df)
 df_transformed.show()
 
+logger.error("#### before spliting")
 
 train,test = df_transformed.randomSplit([sys.argv[0], sys.argv[1]],seed=7)
 #train60,test40 = df_transformed.randomSplit([0.6,0.4],seed=7)
@@ -60,6 +61,7 @@ train,test = df_transformed.randomSplit([sys.argv[0], sys.argv[1]],seed=7)
 #train80,test20 = df_transformed.randomSplit([0.8,0.2],seed=7)
 #train90,test10 = df_transformed.randomSplit([0.9,0.1],seed=7)
 
+logger.error("#### after split")
 
 
 minmax = MinMaxScaler(inputCol="features",outputCol="normFeatures")
@@ -69,7 +71,7 @@ stages1 = []
 stages1 +=[minmax]
 stages1 += [lr]
 
-logger.error("logistic regression","train",sys.argv[0],"test",sys.argv[1])
+logger.error("#######logistic regression","train",sys.argv[0],"test",sys.argv[1])
 
 from pyspark.ml import Pipeline
 
@@ -79,6 +81,8 @@ lr_model60 = pipeline.fit(train)
 lr_pp_df60 = lr_model60.transform(test)
 
 lr_predicited40 = lr_pp_df60.select("normFeatures","prediction","label","rawPrediction","probability")
+logger.error("###### calculation part")
+
 tp = float(lr_predicited40.filter("prediction == 1.0 AND label == 1").count())
 fp = float(lr_predicited40.filter("prediction == 1.0 AND label == 0").count())
 tn = float(lr_predicited40.filter("prediction == 0.0 AND label == 0").count())
