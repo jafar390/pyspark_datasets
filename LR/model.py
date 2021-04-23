@@ -14,7 +14,8 @@ import sys
 
 dataset = "/opt/dkube/dataset"
 spark = SparkSession.builder.config("spark.driver.memory","15g").appName('imbalanced_multi_data').getOrCreate()
-logger= spark._jvm.org.apache.log4j.Logger
+Logger= spark._jvm.org.apache.log4j.Logger
+logger = Logger.getLogger(__name__)
 
 
 if(len(sys.argv)< 2):
