@@ -92,8 +92,11 @@ fp = float(lr_predicited40.filter("prediction == 1.0 AND label == 0").count())
 tn = float(lr_predicited40.filter("prediction == 0.0 AND label == 0").count())
 fn = float(lr_predicited40.filter("prediction == 0.0 AND label == 1").count())
 
+logger.error("Accuracy")
 acc = float((tp+tn)/lr_predicited40.count())
+logger.error("Precision")
 pr = tp / (tp + fp)
+logger.error("Recall")
 
 re = tp / (tp + fn)
 
