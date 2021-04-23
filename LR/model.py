@@ -59,7 +59,7 @@ df_transformed.show()
 
 logger.error("#### before spliting")
 
-train,test = df_transformed.randomSplit([float64(sys.argv[1]), float(sys.argv[2])],seed=7)
+train,test = df_transformed.randomSplit([float(sys.argv[1]), float(sys.argv[2])],seed=7)
 #train60,test40 = df_transformed.randomSplit([0.6,0.4],seed=7)
 #train70,test30 = df_transformed.randomSplit([0.7, 0.3], seed=7)
 #train80,test20 = df_transformed.randomSplit([0.8,0.2],seed=7)
