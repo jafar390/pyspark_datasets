@@ -104,9 +104,9 @@ try:
 except ZeroDivisionError:
   re = 0
 try:
-  F1 = (2 * pr * re)/(re+pr)
+  f1 = (2 * pr * re)/(re+pr)
 except ZeroDivisionError:
-  F1 = 0
+  f1 = 0
 
 metrics40 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",F1)],["metric","value"])
 metrics40.show()
