@@ -98,15 +98,15 @@ acc = float((tp+tn)/rf_predicited40.count())
 try:
     pr = tp / (tp + fp)
 except ZeroDivisionError:
-    pr = 0
+    pr = 0.0
 try:
   re = tp / (tp + fn)
 except ZeroDivisionError:
-  re = 0
+  re = 0.0
 try:
   f1 = (2 * pr * re)/(re+pr)
 except ZeroDivisionError:
-  f1 = 0
+  f1 = 0.0
 
 metrics40 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",f1)],["metric","value"])
 metrics40.show()
