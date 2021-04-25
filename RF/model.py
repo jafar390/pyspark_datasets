@@ -108,5 +108,5 @@ try:
 except ZeroDivisionError:
   f1 = 0
 
-metrics40 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",F1)],["metric","value"])
+metrics40 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",f1)],["metric","value"])
 metrics40.show()
