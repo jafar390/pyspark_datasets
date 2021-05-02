@@ -7,7 +7,7 @@ from pyspark.ml.feature import VectorAssembler,StringIndexer,VectorIndexer,MinMa
 from pyspark.ml.classification import LogisticRegression
 from pyspark.ml.tuning import ParamGridBuilder,CrossValidator
 from pyspark.ml.evaluation import BinaryClassificationEvaluator
-from pyspark.sql import SparkSession
+from pyspark.sql import SparkSessionfrom pyspark.ml.feature import VectorAssembler, StandardScaler, PCA
 import sys
 
 
@@ -79,7 +79,7 @@ standardizer_model = standardizer.fit(test)
 standardized_features_df30 =standardizer_model.transform(test)
 
 
-from pyspark.ml.feature import VectorAssembler, StandardScaler, PCA
+
 
 logger.error("######  pca on standarded scaler using train")
 pca = PCA(k=2, inputCol="std_features",outputCol="pca_features")
