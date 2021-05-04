@@ -130,5 +130,5 @@ try:
   f1 = (2*pr*re)/(pr+re)
 except ZeroDivisionError:
   f1=0.0
-metrics291 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",2*pr*re/(re+pr))],["metric","value"])
+metrics291 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",f1)],["metric","value"])
 metrics291.show()
