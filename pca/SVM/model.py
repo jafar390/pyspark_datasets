@@ -8,6 +8,7 @@ from pyspark.ml.classification import LogisticRegression
 from pyspark.ml.tuning import ParamGridBuilder,CrossValidator
 from pyspark.ml.evaluation import BinaryClassificationEvaluator
 from pyspark.sql import SparkSession
+from pyspark.ml.feature import VectorAssembler, StandardScaler, PCA
 import sys
 
 
@@ -119,9 +120,18 @@ tn = float(svm7_predicited209.filter("prediction == 0.0 AND label == 0").count()
 fn = float(svm7_predicited209.filter("prediction == 0.0 AND label == 1").count())
 
 acc = float((tp+tn)/svm7_predicited209.count())
-pr = tp / (tp + fp)
-
-re = tp / (tp + fn)
+try:
+  pr = tp / (tp + fp)
+except ZeroDivisionError:
+  pr=0.0
+try:
+  re = tp / (tp + fn)
+except ZeroDivisionError:
+  re =0.0
+try:
+  f1 = (2*pr*re)/(pr+re)
+except ZeroDivisionError:
+  f1=0.0
 
 metrics209 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",2*pr*re/(re+pr))],["metric","value"])
 metrics209.show()
