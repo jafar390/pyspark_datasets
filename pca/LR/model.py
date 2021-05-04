@@ -116,9 +116,17 @@ tn = float(lr7_predicited3219.filter("prediction == 0.0 AND label == 0").count()
 fn = float(lr7_predicited3219.filter("prediction == 0.0 AND label == 1").count())
 
 acc = float((tp+tn)/lr7_predicited3219.count())
-pr = tp / (tp + fp)
-
-re = tp / (tp + fn)
-
-metrics3219 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",2*pr*re/(re+pr))],["metric","value"])
+try:
+  pr = tp / (tp + fp)
+except ZeroDivisionError:
+  pr=0.0
+try:
+  re = tp / (tp + fn)
+except ZeroDivisionError:
+  re =0.0
+try:
+  f1 = (2*pr*re)/(pr+re)
+except ZeroDivisionError:
+  f1=0.0
+metrics3219 = spark.createDataFrame([("TP",tp),("FP",fp),("TN",tn),("FN",fn),("accuracy",acc),("precision",pr),("Recall",re),("F1",f1)],["metric","value"])
 metrics3219.show()
